@@ -31,7 +31,7 @@ require("nvim-treesitter.configs").setup({
 vim.cmd("set spelllang=es")
 
 local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
+lspconfig.basedpyright.setup {}
 lspconfig.tsserver.setup {}
 
 require('kanagawa').setup({
