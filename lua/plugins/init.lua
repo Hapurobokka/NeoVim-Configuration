@@ -371,8 +371,8 @@ local default_plugins = {
                     -- return assert(vim.fn.getcwd())
                         return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
                     end,
-                    overrides = {
-                        notes_subdir = vim.NIL,  -- have to use 'vim.NIL' instead of 'nil'
+                overrides = {
+                    notes_subdir = vim.NIL,  -- have to use 'vim.NIL' instead of 'nil'
                         new_notes_location = "current_dir",
                         templates = {
                             subdir = vim.NIL,
@@ -428,6 +428,17 @@ local default_plugins = {
     {
         "preservim/vim-pencil",
         cmd = { "Pencil", "NoPencil", "TooglePencil", "SoftPencil", "HardPencil" }
+    },
+
+    {
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
     }
 
 }
