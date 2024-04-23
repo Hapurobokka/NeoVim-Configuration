@@ -60,6 +60,7 @@ require('kanagawa').setup({
 })
 
 vim.cmd("colorscheme kanagawa")
+vim.cmd("set runtimepath^=~/.vim/bundle/vlime/vim")
 
 if vim.g.neovide then
     vim.o.guifont = "FiraCode Nerd Font:h12"

@@ -20,6 +20,7 @@ local default_plugins = {
     {
         "NvChad/nvterm",
         init = function()
+
             require("core.utils").load_mappings "nvterm"
         end,
         config = function(_, opts)
@@ -439,8 +440,71 @@ local default_plugins = {
                 -- Configuration here, or leave empty to use defaults
             })
         end
-    }
+    },
 
+    {
+        "vhyrro/luarocks.nvim",
+        priority = 1000, -- this plugin needs to run before anything else
+        config = true,
+    },
+
+    {
+        "nvim-neorg/neorg",
+        dependencies = { "luarocks.nvim" },
+        lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+        version = "*", -- Pin Neorg to the latest stable release
+        config = function ()
+            require("neorg").setup {
+                load = {
+                    ["core.defaults"] = {},
+                    ["core.concealer"] = {},
+                    ["core.dirman"] = {
+                        config = {
+                            workspaces = {
+                                notes = "~/org",
+                            },
+                            default_workspace = "notes",
+                        },
+                    },
+                },
+            }
+        end
+    },
+
+    {
+        "monkoose/nvlime",
+        ft = { "lisp" },
+        dependencies = {
+          "monkoose/parsley",
+        },
+        init = function()
+          vim.g.nvlime_config = {
+            leader = "<LocalLeader>",
+            implementation = "sbcl",
+            user_contrib_initializers = nil,
+            autodoc = {
+              enabled = false,
+              max_level = 5,
+              max_lines = 50,
+            },
+            main_window = {
+              position = "right",
+              size = "",
+            },
+            floating_window = {
+              border = "single",
+              scroll_step = 3,
+            },
+            cmp = { enabled = true },
+            arglist = { enabled = true },
+          }
+
+        end,
+    },
+
+    {
+        "kovisoft/paredit"
+    },
 }
 
 local config = require("core.utils").load_config()

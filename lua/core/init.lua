@@ -43,7 +43,7 @@ opt.splitright = true
 opt.termguicolors = true
 opt.timeoutlen = 400
 opt.undofile = true
-opt.conceallevel = 1
+opt.conceallevel = 2
 
 -- interval for writing swap file to disk, also used by gitsigns
 opt.updatetime = 250
@@ -151,6 +151,7 @@ local function writing_mode()
     vim.cmd('ZenMode')
     vim.cmd('Limelight')
     vim.cmd('set spell')
+    vim.cmd('ColorizerToggle')
 end
 vim.api.nvim_create_user_command(
     'WritingMode',
