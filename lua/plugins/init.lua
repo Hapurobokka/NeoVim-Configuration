@@ -505,6 +505,17 @@ local default_plugins = {
     {
         "kovisoft/paredit"
     },
+
+    {
+        "ellisonleao/glow.nvim",
+        config = true,
+        cmd = "Glow"
+    },
+
+    {
+        "ggandor/leap.nvim",
+        dependencies = { "tpope/vim-repeat" }
+    }
 }
 
 local config = require("core.utils").load_config()
