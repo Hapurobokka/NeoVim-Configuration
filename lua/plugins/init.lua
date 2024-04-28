@@ -243,11 +243,40 @@ local default_plugins = {
   --bulto
     {
         "rebelot/kanagawa.nvim",
+        config = function ()
+            require('kanagawa').setup({
+                compile = false,             -- enable compiling the colorscheme
+                undercurl = true,            -- enable undercurls
+                commentStyle = { italic = true },
+                functionStyle = {},
+                keywordStyle = { italic = true},
+                statementStyle = { bold = true },
+                typeStyle = {},
+                transparent = false,         -- do not set background color
+                dimInactive = false,         -- dim inactive window `:h hl-NormalNC`
+                terminalColors = true,       -- define vim.g.terminal_color_{0,17}
+                colors = {                   -- add/modify theme and palette colors
+                    palette = {},
+                    theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+                },
+                overrides = function(colors) -- add/modify highlights
+                    return {}
+                end,
+                theme = "wave",              -- Load "wave" theme when 'background' option is not set
+                background = {               -- map the value of 'background' option to a theme
+                    dark = "wave",           -- try "dragon" !
+                    light = "lotus"
+                },
+            })
+        end
     },
 
     {
         "folke/zen-mode.nvim",
         cmd = "ZenMode",
+        keys = {
+            { "wm", mode = "n", desc = "Enters Writing Mode"},
+        },
         opts = {
             window = {
                 backdrop = 0.95, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
@@ -358,10 +387,12 @@ local default_plugins = {
         opts = {
             workspaces = {
                 {
-                    name = "vault",
-                    path = "$HOME/aire/",
-                    templates = {
-                        subdir = "/Plantillas"
+                    name = "aire",
+                    path = "/mnt/c/Users/cosmo/OneDrive/Documents/aire",
+                    overrides = {
+                        templates = {
+                            subdir = "/Plantillas"
+                        }
                     }
                 },
 
@@ -383,7 +414,7 @@ local default_plugins = {
                 },
             },
             -- Optional, customize how note IDs are generated given an optional title.
-            ---@param title string|?
+            ---@param title string
             ---@return string
             note_id_func = function(title)
                 return title
@@ -513,9 +544,17 @@ local default_plugins = {
     },
 
     {
-        "ggandor/leap.nvim",
-        dependencies = { "tpope/vim-repeat" }
+        "nvim-telescope/telescope-media-files.nvim",
+        "nvim-lua/popup.nvim"
+    },
+
+    {
+        'stevearc/oil.nvim',
+        opts = {},
+        -- Optional dependencies
+        dependencies = { "nvim-tree/nvim-web-devicons" },
     }
+
 }
 
 local config = require("core.utils").load_config()
