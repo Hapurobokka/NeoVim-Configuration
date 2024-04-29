@@ -50,6 +50,6 @@ lspconfig.pylsp.setup{}
 
 
 if vim.g.neovide then
-    vim.o.guifont = "FiraCode Nerd Font:h12"
+    vim.o.guifont = "JetBrainsMono Nerd Font:h12"
     -- Aquí pasan cosas de NeoVide
 end
