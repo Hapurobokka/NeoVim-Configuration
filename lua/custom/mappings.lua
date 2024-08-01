@@ -3,7 +3,7 @@ local M = {}
 
 M.general = {
   n = {
-    ["<leader>o"] = { "<cmd>Oil<cr>", "Open Oil"},
+    ["<leader>fo"] = { "<cmd>Oil<cr>", "Open Oil"},
 
     -- Para Telescope
     ["<leader>fi"] = { "<cmd>Telescope media_files<cr>", "Searches media files" },

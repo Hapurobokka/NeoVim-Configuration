@@ -1,5 +1,4 @@
 require "core"
-require "custom.configs.hydras"
 
 local custom_init_path = vim.api.nvim_get_runtime_file("lua/custom/init.lua", false)[1]
 
@@ -8,6 +7,8 @@ if custom_init_path then
 end
 
 require("core.utils").load_mappings()
+
+vim.g.maplocalleader = ','
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
@@ -47,14 +48,20 @@ vim.cmd "set spelllang=es"
 
 local lspconfig = require "lspconfig"
 lspconfig.tsserver.setup {}
-lspconfig.pylsp.setup {}
+lspconfig.pyright.setup {}
+lspconfig.clojure_lsp.setup{
+    root_dir = lspconfig.util.root_pattern("project.clj", "deps.edn", "build.boot", "shadow-cljs.edn", ".git", "bb.edn")
+}
+
 
 if vim.g.neovide then
     vim.o.guifont = "JetBrainsMono Nerd Font:h12"
     -- Aquí pasan cosas de NeoVide
 end
 
-vim.cmd "KanagawaCompile"
+vim.keymap.set({'n', 'x', 'o'}, 's',  '<Plug>(leap-forward)')
+vim.keymap.set({'n', 'x', 'o'}, 'S',  '<Plug>(leap-backward)')
+vim.keymap.set({'n', 'x', 'o'}, 'gs', '<Plug>(leap-from-window)')
 
 local rocks_config = {
     rocks_path = vim.env.HOME .. "/.local/share/nvim/rocks",

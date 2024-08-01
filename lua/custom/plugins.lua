@@ -1,4 +1,6 @@
 local overrides = require "custom.configs.overrides"
+package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?/init.lua"
+package.path = package.path .. ";" .. vim.fn.expand "$HOME" .. "/.luarocks/share/lua/5.1/?.lua"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -114,7 +116,7 @@ local plugins = {
                 -- - allow_remote_control socket-only
                 -- - listen_on unix:/tmp/kitty
                 kitty = {
-                    enabled = false,
+                    enabled = true,
                     font = "+4", -- font size increment
                 },
                 -- this will change the font size on alacritty when in zen mode
@@ -165,6 +167,11 @@ local plugins = {
                             subdir = "/Plantillas",
                         },
                     },
+                },
+
+                {
+                    name = "vault",
+                    path = "/mnt/c/Users/cosmo/OneDrive/Documents/vault/",
                 },
 
                 {
@@ -221,19 +228,19 @@ local plugins = {
         "williamboman/mason-lspconfig.nvim",
     },
 
-    {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
-        build = function()
-            vim.fn["mkdp#util#install"]()
-        end,
-    },
+    -- {
+    --     "iamcco/markdown-preview.nvim",
+    --     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    --     ft = { "markdown" },
+    --     build = function()
+    --         vim.fn["mkdp#util#install"]()
+    --     end,
+    -- },
 
-    {
-        "preservim/vim-pencil",
-        cmd = { "Pencil", "NoPencil", "TooglePencil", "SoftPencil", "HardPencil" },
-    },
+    -- {
+    --     "preservim/vim-pencil",
+    --     cmd = { "Pencil", "NoPencil", "TooglePencil", "SoftPencil", "HardPencil" },
+    -- },
 
     {
         "kylechui/nvim-surround",
@@ -266,54 +273,57 @@ local plugins = {
                         config = {
                             workspaces = {
                                 notes = "~/org",
+                                escuela = "~/escuela",
+                                escritura = "~/escritura",
                             },
                             default_workspace = "notes",
                         },
                     },
+                    ["core.export"] = {},
                 },
             }
         end,
     },
 
-    {
-        "monkoose/nvlime",
-        ft = { "lisp" },
-        dependencies = {
-            "monkoose/parsley",
-        },
-        init = function()
-            vim.g.nvlime_config = {
-                leader = "<LocalLeader>",
-                implementation = "sbcl",
-                user_contrib_initializers = nil,
-                autodoc = {
-                    enabled = false,
-                    max_level = 5,
-                    max_lines = 50,
-                },
-                main_window = {
-                    position = "right",
-                    size = "",
-                },
-                floating_window = {
-                    border = "single",
-                    scroll_step = 3,
-                },
-                cmp = { enabled = true },
-                arglist = { enabled = true },
-            }
-        end,
-    },
+    -- {
+    --     "monkoose/nvlime",
+    --     ft = { "lisp" },
+    --     dependencies = {
+    --         "monkoose/parsley",
+    --     },
+    --     init = function()
+    --         vim.g.nvlime_config = {
+    --             leader = "<LocalLeader>",
+    --             implementation = "sbcl",
+    --             user_contrib_initializers = nil,
+    --             autodoc = {
+    --                 enabled = false,
+    --                 max_level = 5,
+    --                 max_lines = 50,
+    --             },
+    --             main_window = {
+    --                 position = "right",
+    --                 size = "",
+    --             },
+    --             floating_window = {
+    --                 border = "single",
+    --                 scroll_step = 3,
+    --             },
+    --             cmp = { enabled = true },
+    --             arglist = { enabled = true },
+    --         }
+    --     end,
+    -- },
 
     {
         "kovisoft/paredit",
     },
 
-    {
-        "ellisonleao/glow.nvim",
-        config = true,
-        cmd = "Glow",
-    },
+    -- {
+    --     "ellisonleao/glow.nvim",
+    --     config = true,
+    --     cmd = "Glow",
+    -- },
 
     {
         "nvim-telescope/telescope-media-files.nvim",
@@ -330,7 +340,6 @@ local plugins = {
     {
         "NeogitOrg/neogit",
         lazy = false,
-        branch = "nightly",
         dependencies = {
             "nvim-lua/plenary.nvim", -- required
             "sindrets/diffview.nvim", -- optional - Diff integration
@@ -341,10 +350,10 @@ local plugins = {
         config = true,
     },
 
-    {
-        "seandewar/nvimesweeper",
-        cmd = "Nvimesweeper",
-    },
+    -- {
+    --     "seandewar/nvimesweeper",
+    --     cmd = "Nvimesweeper",
+    -- },
 
     {
         "christoomey/vim-tmux-navigator",
@@ -364,6 +373,52 @@ local plugins = {
         },
     },
 
+    {
+        "ggandor/leap.nvim",
+        lazy = false,
+        dependencies = { "tpope/vim-repeat" },
+        config = function()
+            require("leap").setup {
+                highlight_unlabeled_phase_one_targets = true,
+            }
+        end,
+    },
+
+    {
+        "lervag/vimtex",
+        lazy = false, -- we don't want to lazy load VimTeX
+        init = function()
+            -- VimTeX configuration goes here
+        end,
+    },
+
+    {
+        "nvim-orgmode/orgmode",
+        event = "VeryLazy",
+        ft = { "org" },
+        config = function()
+            -- Setup orgmode
+            require("orgmode").setup {
+                org_agenda_files = "~/orgfiles/**/*",
+                org_default_notes_file = "~/orgfiles/cosas_que_hacer.org",
+                org_capture_templates = {
+                    j = {
+                        description = "Journal",
+                        template = "\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?",
+                        target = "~/orgfiles/journal.org",
+                    },
+                },
+            }
+
+            -- NOTE: If you are using nvim-treesitter with `ensure_installed = "all"` option
+            -- add `org` to ignore_install
+            -- require('nvim-treesitter.configs').setup({
+            --   ensure_installed = 'all',
+            --   ignore_install = { 'org' },
+            -- })
+        end,
+    },
+
     -- To make a plugin not be loaded
     -- {
     --   "NvChad/nvim-colorizer.lua",
@@ -377,6 +432,103 @@ local plugins = {
     --   "mg979/vim-visual-multi",
     --   lazy = false,
     -- }
+    --
+
+    {
+        "Olical/conjure",
+        ft = { "clojure", "fennel", "python", "lisp" }, -- etc
+        -- [Optional] cmp-conjure for cmp
+        dependencies = {
+            {
+                "PaterJason/cmp-conjure",
+                config = function()
+                    local cmp = require "cmp"
+                    local config = cmp.get_config()
+                    table.insert(config.sources, {
+                        name = "buffer",
+                        option = {
+                            sources = {
+                                { name = "conjure" },
+                            },
+                        },
+                    })
+                    cmp.setup(config)
+                end,
+            },
+        },
+        config = function(_, opts)
+            require("conjure.main").main()
+            require("conjure.mapping")["on-filetype"]()
+        end,
+        init = function()
+            -- Set configuration options here
+            vim.g["conjure#debug"] = false
+        end,
+    },
+
+    {
+        "clojure-vim/vim-jack-in",
+        dependencies = {
+            "radenling/vim-dispatch-neovim",
+            "tpope/vim-dispatch",
+        },
+        ft = { "clojure" },
+    },
+
+    {
+        "3rd/image.nvim",
+        ft = { "markdown", "norg" },
+        config = function()
+            require("image").setup {
+                backend = "kitty",
+                integrations = {
+                    markdown = {
+                        enabled = true,
+                        clear_in_insert_mode = false,
+                        download_remote_images = true,
+                        only_render_image_at_cursor = false,
+                        filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+                    },
+                    neorg = {
+                        enabled = true,
+                        clear_in_insert_mode = false,
+                        download_remote_images = true,
+                        only_render_image_at_cursor = false,
+                        filetypes = { "norg" },
+                    },
+                    html = {
+                        enabled = false,
+                    },
+                    css = {
+                        enabled = false,
+                    },
+                },
+                max_width = nil,
+                max_height = nil,
+                max_width_window_percentage = nil,
+                max_height_window_percentage = 50,
+                window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
+                window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+                editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
+                tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
+                hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
+            }
+        end,
+    },
+    {
+        "MeanderingProgrammer/markdown.nvim",
+        main = "render-markdown",
+        opts = {},
+        name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+        ft = "markdown",
+        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+    },
+
+    {
+        "gpanders/nvim-parinfer"
+    }
 }
+
+vim.cmd "let g:vimtex_view_general_viewer = 'okular.exe'"
 
 return plugins
