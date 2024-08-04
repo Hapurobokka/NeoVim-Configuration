@@ -408,6 +408,26 @@ local plugins = {
                         target = "~/orgfiles/journal.org",
                     },
                 },
+                org_custom_exports = {
+                    -- this uses a custom bash script
+                    r = {
+                        label = "Actually funcional and stupid org to pdf export",
+                        action = function(exporter)
+                            local current_file = vim.api.nvim_buf_get_name(0)
+                            local target = vim.fn.fnamemodify(current_file, ':p:r')..'.pdf'
+                            local command = {'export-org-to-pdf', current_file}
+                            local on_sucess = function(output)
+                                print('Sucess!')
+                                vim.api.nvim_echo({{ table.concat(output, '\n') }}, true, {})
+                            end
+                            local on_error = function(err)
+                                print('Error!')
+                                vim.api.nvim_echo({{ table.concat(err, '\n'), 'ErrorMsg' }}, true, {})
+                            end
+                            return exporter(command, target, on_sucess, on_error)
+                        end
+                    }
+                }
             }
 
             -- NOTE: If you are using nvim-treesitter with `ensure_installed = "all"` option

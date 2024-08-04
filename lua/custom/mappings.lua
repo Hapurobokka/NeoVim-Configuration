@@ -27,7 +27,9 @@ M.general = {
     ["<leader>aoe"] = { "<cmd>ObsidianTemplates<cr>", "Insert a template"},
     ["<leader>aos"] = { "<cmd>ObsidianSearch<cr>", "Search for a note in the vault" },
     ["<leader>aor"] = { "<cmd>ObsidianRename<cr>", "Rename current note" },
-    ["<leader>aoi"] = { "<cmd>ObsidianLinkNew", "Create a new link at a selection"},
+    ["<leader>aoi"] = { "<cmd>ObsidianLinkNew<cr>", "Create a new link at a selection"},
+
+    ["<leader>gg"] = {"<cmd>Neogit<cr>", "Open Neogit"},
 
     --  format with conform
     ["<leader>fm"] = {
