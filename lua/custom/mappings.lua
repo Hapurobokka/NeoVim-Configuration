@@ -9,7 +9,7 @@ M.general = {
     ["<leader>fi"] = { "<cmd>Telescope media_files<cr>", "Searches media files" },
 
     -- Entra al modo escritura
-    ["<leader>aw"] = { "<cmd>WritingMode<cr>", "enter writing mode" },
+    ["<leader>tz"] = { "<cmd>ZenMode<cr>", "toogle zen mode" },
 
     -- Atajos de Neorg
     ["<leader>ani"] = { "<cmd>Neorg index<cr>", "Opens default's workspace index file" },

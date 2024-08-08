@@ -76,69 +76,9 @@ local plugins = {
     {
         "folke/zen-mode.nvim",
         cmd = "ZenMode",
-        opts = {
-            window = {
-                backdrop = 0.95, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
-                -- height and width can be:
-                -- * an absolute number of cells when > 1
-                -- * a percentage of the width / height of the editor when <= 1
-                -- * a function that returns the width or the height
-                width = 120, -- width of the Zen window
-                height = 1, -- height of the Zen window
-                -- by default, no options are changed for the Zen window
-                -- uncomment any of the options below, or add other vim.wo options you want to apply
-                options = {
-                    signcolumn = "no", -- disable signcolumn
-                    number = false, -- disable number column
-                    relativenumber = false, -- disable relative numbers
-                    cursorline = false, -- disable cursorline
-                    cursorcolumn = false, -- disable cursor column
-                    foldcolumn = "0", -- disable fold column
-                    list = false, -- disable whitespace characters
-                },
-            },
-            plugins = {
-                -- disable some global vim options (vim.o...)
-                -- comment the lines to not apply the options
-                options = {
-                    enabled = true,
-                    ruler = false, -- disables the ruler text in the cmd line area
-                    showcmd = false, -- disables the command in the last line of the screen
-                    -- you may turn on/off statusline in zen mode by setting 'laststatus'
-                    -- statusline will be shown only if 'laststatus' == 3
-                    laststatus = 0, -- turn off the statusline in zen mode
-                },
-                twilight = { enabled = false }, -- enable to start Twilight when zen mode opens
-                gitsigns = { enabled = false }, -- disables git signs
-                tmux = { enabled = true }, -- disables the tmux statusline
-                -- this will change the font size on kitty when in zen mode
-                -- to make this work, you need to set the following kitty options:
-                -- - allow_remote_control socket-only
-                -- - listen_on unix:/tmp/kitty
-                kitty = {
-                    enabled = true,
-                    font = "+4", -- font size increment
-                },
-                -- this will change the font size on alacritty when in zen mode
-                -- requires  Alacritty Version 0.10.0 or higher
-                -- uses `alacritty msg` subcommand to change font size
-                alacritty = {
-                    enabled = false,
-                    font = "14", -- font size
-                },
-                -- this will change the font size on wezterm when in zen mode
-                -- See alse also the Plugins/Wezterm section in this projects README
-                wezterm = {
-                    enabled = false,
-                    -- can be either an absolute font size or the number of incremental steps
-                    font = "+4", -- (10% increase per step)
-                },
-            },
-            -- callback where you can add custom code when the Zen window opens
-            on_open = function(win) end,
-            -- callback where you can add custom code when the Zen window closes
-            on_close = function() end,
-        },
+        opts = function()
+            return require "custom.configs.zen_mode"
+        end,
     },
 
     {
@@ -157,47 +97,9 @@ local plugins = {
             -- Required.
             "nvim-lua/plenary.nvim",
         },
-        opts = {
-            workspaces = {
-                {
-                    name = "aire",
-                    path = "/mnt/c/Users/cosmo/OneDrive/Documents/aire",
-                    overrides = {
-                        templates = {
-                            subdir = "/Plantillas",
-                        },
-                    },
-                },
-
-                {
-                    name = "vault",
-                    path = "/mnt/c/Users/cosmo/OneDrive/Documents/vault/",
-                },
-
-                {
-                    name = "no-vault",
-                    path = function()
-                        -- alternatively use the CWD:
-                        -- return assert(vim.fn.getcwd())
-                        return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
-                    end,
-                    overrides = {
-                        notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
-                        new_notes_location = "current_dir",
-                        templates = {
-                            subdir = vim.NIL,
-                        },
-                        disable_frontmatter = true,
-                    },
-                },
-            },
-            -- Optional, customize how note IDs are generated given an optional title.
-            ---@param title string
-            ---@return string
-            note_id_func = function(title)
-                return title
-            end,
-        },
+        opts = function()
+            return require "custom.configs.obsidian"
+        end,
     },
 
     {
@@ -265,23 +167,7 @@ local plugins = {
         lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
         version = "*", -- Pin Neorg to the latest stable release
         config = function()
-            require("neorg").setup {
-                load = {
-                    ["core.defaults"] = {},
-                    ["core.concealer"] = {},
-                    ["core.dirman"] = {
-                        config = {
-                            workspaces = {
-                                notes = "~/org",
-                                escuela = "~/escuela",
-                                escritura = "~/escritura",
-                            },
-                            default_workspace = "notes",
-                        },
-                    },
-                    ["core.export"] = {},
-                },
-            }
+            return require("custom.configs.neorg")
         end,
     },
 
@@ -397,45 +283,7 @@ local plugins = {
         event = "VeryLazy",
         ft = { "org" },
         config = function()
-            -- Setup orgmode
-            require("orgmode").setup {
-                org_agenda_files = "~/orgfiles/**/*",
-                org_default_notes_file = "~/orgfiles/cosas_que_hacer.org",
-                org_capture_templates = {
-                    j = {
-                        description = "Journal",
-                        template = "\n*** %<%Y-%m-%d> %<%A>\n**** %U\n\n%?",
-                        target = "~/orgfiles/journal.org",
-                    },
-                },
-                org_custom_exports = {
-                    -- this uses a custom bash script
-                    r = {
-                        label = "Actually funcional and stupid org to pdf export",
-                        action = function(exporter)
-                            local current_file = vim.api.nvim_buf_get_name(0)
-                            local target = vim.fn.fnamemodify(current_file, ':p:r')..'.pdf'
-                            local command = {'export-org-to-pdf', current_file}
-                            local on_sucess = function(output)
-                                print('Sucess!')
-                                vim.api.nvim_echo({{ table.concat(output, '\n') }}, true, {})
-                            end
-                            local on_error = function(err)
-                                print('Error!')
-                                vim.api.nvim_echo({{ table.concat(err, '\n'), 'ErrorMsg' }}, true, {})
-                            end
-                            return exporter(command, target, on_sucess, on_error)
-                        end
-                    }
-                }
-            }
-
-            -- NOTE: If you are using nvim-treesitter with `ensure_installed = "all"` option
-            -- add `org` to ignore_install
-            -- require('nvim-treesitter.configs').setup({
-            --   ensure_installed = 'all',
-            --   ignore_install = { 'org' },
-            -- })
+            return require("custom.configs.orgmode")
         end,
     },
 
@@ -498,57 +346,33 @@ local plugins = {
     {
         "3rd/image.nvim",
         ft = { "markdown", "norg" },
-        config = function()
-            require("image").setup {
-                backend = "kitty",
-                integrations = {
-                    markdown = {
-                        enabled = true,
-                        clear_in_insert_mode = false,
-                        download_remote_images = true,
-                        only_render_image_at_cursor = false,
-                        filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
-                    },
-                    neorg = {
-                        enabled = true,
-                        clear_in_insert_mode = false,
-                        download_remote_images = true,
-                        only_render_image_at_cursor = false,
-                        filetypes = { "norg" },
-                    },
-                    html = {
-                        enabled = false,
-                    },
-                    css = {
-                        enabled = false,
-                    },
-                },
-                max_width = nil,
-                max_height = nil,
-                max_width_window_percentage = nil,
-                max_height_window_percentage = 50,
-                window_overlap_clear_enabled = false, -- toggles images when windows are overlapped
-                window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-                editor_only_render_when_focused = false, -- auto show/hide images when the editor gains/looses focus
-                tmux_show_only_in_active_window = false, -- auto show/hide images in the correct Tmux window (needs visual-activity off)
-                hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.avif" }, -- render image files as images when opened
-            }
-        end,
-    },
-    {
-        "MeanderingProgrammer/markdown.nvim",
-        main = "render-markdown",
-        opts = {},
-        name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
-        ft = "markdown",
-        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+        config = function ()
+            return require("custom.configs.image")
+        end
     },
 
     {
-        "gpanders/nvim-parinfer"
-    }
+        "OXY2DEV/markview.nvim",
+        lazy = false, -- Recommended
+        -- ft = "markdown" -- If you decide to lazy-load anyway
+
+        dependencies = {
+            -- You will not need this if you installed the
+            -- parsers manually
+            -- Or if the parsers are in your $RUNTIMEPATH
+            "nvim-treesitter/nvim-treesitter",
+
+            "nvim-tree/nvim-web-devicons",
+        },
+    },
+
+    {
+        "gpanders/nvim-parinfer",
+        ft = { "clojure", "fennel", "lisp" },
+    },
 }
 
 vim.cmd "let g:vimtex_view_general_viewer = 'okular.exe'"
+vim.cmd "let g:limelight_conceal_ctermfg = 240"
 
 return plugins
