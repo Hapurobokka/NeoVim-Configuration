@@ -16,10 +16,10 @@ local plugins = {
     },
 
     -- override plugin configs
-    {
-        "williamboman/mason.nvim",
-        opts = overrides.mason,
-    },
+    -- {
+    --     "williamboman/mason.nvim",
+    --     opts = overrides.mason,
+    -- },
 
     {
         "nvim-treesitter/nvim-treesitter",
@@ -121,14 +121,10 @@ local plugins = {
         cmd = "UndotreeToggle",
     },
 
-    {
-        "junegunn/limelight.vim",
-        cmd = "Limelight",
-    },
 
-    {
-        "williamboman/mason-lspconfig.nvim",
-    },
+    -- {
+    --     "williamboman/mason-lspconfig.nvim",
+    -- },
 
     -- {
     --     "iamcco/markdown-preview.nvim",
@@ -159,6 +155,9 @@ local plugins = {
         "vhyrro/luarocks.nvim",
         priority = 1001, -- this plugin needs to run before anything else
         config = true,
+        opts = {
+            rocks = { "magick" },
+        },
     },
 
     {
@@ -344,10 +343,10 @@ local plugins = {
     },
 
     {
-        "3rd/image.nvim",
-        ft = { "markdown", "norg" },
-        config = function ()
-            return require("custom.configs.image")
+        'adelarsq/image_preview.nvim',
+        event = 'VeryLazy',
+        config = function()
+            require("image_preview").setup()
         end
     },
 
@@ -370,6 +369,10 @@ local plugins = {
         "gpanders/nvim-parinfer",
         ft = { "clojure", "fennel", "lisp" },
     },
+
+    {
+        "jbyuki/nabla.nvim"
+    }
 }
 
 vim.cmd "let g:vimtex_view_general_viewer = 'okular.exe'"

@@ -31,6 +31,13 @@ M.general = {
 
     ["<leader>gg"] = {"<cmd>Neogit<cr>", "Open Neogit"},
 
+    ["<leader>pl"] = {
+        function ()
+            require("nabla").popup()
+        end,
+        "Preview LaTeX"
+    },
+
     --  format with conform
     ["<leader>fm"] = {
       function()

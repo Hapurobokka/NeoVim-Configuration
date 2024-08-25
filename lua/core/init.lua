@@ -146,19 +146,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Activate writing mode 
-local function writing_mode()
-    vim.cmd('ZenMode')
-    vim.cmd('Limelight')
-    vim.cmd('set spell')
-    vim.cmd('ColorizerToggle')
-end
-vim.api.nvim_create_user_command(
-    'WritingMode',
-    writing_mode,
-    {}
-)
-
 -------------------------------------- commands ------------------------------------------
 local new_cmd = vim.api.nvim_create_user_command
 
