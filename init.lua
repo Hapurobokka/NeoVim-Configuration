@@ -51,6 +51,7 @@ local lspconfig = require "lspconfig"
 local configs = require "lspconfig.configs"
 lspconfig.tsserver.setup {}
 lspconfig.pyright.setup {}
+lspconfig.sqls.setup {}
 -- lspconfig.clojure_lsp.setup {
 --     root_dir = lspconfig.util.root_pattern(
 --         "project.clj",
