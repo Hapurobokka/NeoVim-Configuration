@@ -9,17 +9,10 @@ local options = {
 		css = { "prettier" },
 		html = { "prettier" },
 
-        python = { "pyink" },
+        python = { "black" },
 
 		sh = { "shfmt" },
 	},
-
-    formatters = {
-        pyink = {
-            command = "/home/hapu/.local/share/nvim/mason/bin/pyink"
-        }
-    }
-
   -- adding same formatter for multiple filetypes can look too much work for some
   -- instead of the above code you could just use a loop! the config is just a table after all!
 
