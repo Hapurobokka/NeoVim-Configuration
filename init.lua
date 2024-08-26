@@ -29,21 +29,8 @@ require("nvim-treesitter.configs").setup {
     },
 }
 
-require("telescope").load_extension "media_files"
-require("telescope").setup {
-    extensions = {
-        media_files = {
-            -- filetypes whitelist
-            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-            filetypes = { "png", "webp", "jpg", "jpeg" },
-            -- find command (defaults to `fd`)
-            find_cmd = "rg",
-        },
-    },
-}
-
 require("oil").setup()
-require("image_preview").setup({})
+require("image_preview").setup {}
 
 vim.cmd "set spelllang=es"
 
@@ -51,7 +38,18 @@ local lspconfig = require "lspconfig"
 local configs = require "lspconfig.configs"
 lspconfig.tsserver.setup {}
 lspconfig.pyright.setup {}
-lspconfig.sqls.setup {}
+lspconfig.sqls.setup {
+    settings = {
+        sqls = {
+            connections = {
+                {
+                    driver = "sqlite3",
+                    dataSourceName = "~/code/expenses-tracker/database.db",
+                },
+            },
+        },
+    },
+}
 -- lspconfig.clojure_lsp.setup {
 --     root_dir = lspconfig.util.root_pattern(
 --         "project.clj",
