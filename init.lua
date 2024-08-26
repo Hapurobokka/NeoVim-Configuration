@@ -44,7 +44,7 @@ lspconfig.sqls.setup {
             connections = {
                 {
                     driver = "sqlite3",
-                    dataSourceName = "/home/hapu/code/expenses-tracker/database.db",
+                    dataSourceName = "/home/hapu/code/expenses-tracker/database.sqlite3",
                 },
             },
         },
