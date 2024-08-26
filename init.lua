@@ -30,14 +30,13 @@ require("nvim-treesitter.configs").setup {
 }
 
 require("oil").setup()
-require("image_preview").setup {}
 
 vim.cmd "set spelllang=es"
 
 local lspconfig = require "lspconfig"
-local configs = require "lspconfig.configs"
 lspconfig.tsserver.setup {}
 lspconfig.pyright.setup {}
+lspconfig.nixd.setup {}
 lspconfig.sqls.setup {
     settings = {
         sqls = {
