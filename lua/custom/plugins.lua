@@ -9,10 +9,24 @@ local plugins = {
 
     {
         "neovim/nvim-lspconfig",
+        lazy = false,
         config = function()
             require "plugins.configs.lspconfig"
             require "custom.configs.lspconfig"
         end, -- Override to setup mason-lspconfig
+        dependencies = {
+            { "ms-jpq/coq_nvim", branch = "coq" },
+
+            -- 9000+ Snippets
+            { "ms-jpq/coq.artifacts", branch = "artifacts" },
+        },
+
+        init = function()
+            vim.g.coq_settings = {
+                auto_start = true, -- if you want to start COQ at startup
+                -- Your COQ settings here
+            }
+            end,
     },
 
     -- override plugin configs
@@ -377,5 +391,6 @@ local plugins = {
 
 vim.cmd "let g:vimtex_view_general_viewer = 'okular.exe'"
 vim.cmd "let g:limelight_conceal_ctermfg = 240"
+
 
 return plugins
