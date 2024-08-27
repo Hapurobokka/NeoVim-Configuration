@@ -23,10 +23,10 @@ local plugins = {
 
         init = function()
             vim.g.coq_settings = {
-                auto_start = 'shut-up', -- if you want to start COQ at startup
+                auto_start = "shut-up", -- if you want to start COQ at startup
                 -- Your COQ settings here
             }
-            end,
+        end,
     },
 
     -- override plugin configs
@@ -135,7 +135,6 @@ local plugins = {
         cmd = "UndotreeToggle",
     },
 
-
     -- {
     --     "williamboman/mason-lspconfig.nvim",
     -- },
@@ -180,7 +179,7 @@ local plugins = {
         lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
         version = "*", -- Pin Neorg to the latest stable release
         config = function()
-            return require("custom.configs.neorg")
+            return require "custom.configs.neorg"
         end,
     },
 
@@ -296,7 +295,7 @@ local plugins = {
         event = "VeryLazy",
         ft = { "org" },
         config = function()
-            return require("custom.configs.orgmode")
+            return require "custom.configs.orgmode"
         end,
     },
 
@@ -339,11 +338,11 @@ local plugins = {
     },
 
     {
-        'adelarsq/image_preview.nvim',
-        event = 'VeryLazy',
+        "adelarsq/image_preview.nvim",
+        event = "VeryLazy",
         config = function()
             require("image_preview").setup()
-        end
+        end,
     },
 
     {
@@ -368,12 +367,19 @@ local plugins = {
 
     {
         "jbyuki/nabla.nvim",
-        'ludovicchabant/vim-gutentags'
-    }
+    },
+
+    {
+        "ludovicchabant/vim-gutentags",
+        ft = { 'python', 'lua' },
+        cond = function ()
+            local is_git_repo = vim.fn.system('git rev-parse --is-inside-work-tree'):match(true)
+            return is_git_repo ~= nil
+        end
+    },
 }
 
 vim.cmd "let g:vimtex_view_general_viewer = 'okular.exe'"
 vim.cmd "let g:limelight_conceal_ctermfg = 240"
-
 
 return plugins
