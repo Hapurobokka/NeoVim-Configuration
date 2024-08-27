@@ -373,7 +373,7 @@ local plugins = {
         "ludovicchabant/vim-gutentags",
         ft = { 'python', 'lua' },
         cond = function ()
-            local is_git_repo = vim.fn.system('git rev-parse --is-inside-work-tree'):match(true)
+            local is_git_repo = vim.fn.system('git rev-parse --is-inside-work-tree'):match('true')
             return is_git_repo ~= nil
         end
     },
