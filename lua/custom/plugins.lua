@@ -367,7 +367,8 @@ local plugins = {
     },
 
     {
-        "jbyuki/nabla.nvim"
+        "jbyuki/nabla.nvim",
+        'ludovicchabant/vim-gutentags'
     }
 }
 
