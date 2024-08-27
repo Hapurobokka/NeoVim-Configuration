@@ -1,3 +1,5 @@
+#!/usr/bin/env fish
+
 git add -A 
 
 if test -z $argv
