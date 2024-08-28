@@ -379,7 +379,8 @@ local plugins = {
     },
 
     {
-        'junegunn/goyo.vim'
+        'junegunn/goyo.vim',
+        cmd = "Goyo"
     }
 }
 
