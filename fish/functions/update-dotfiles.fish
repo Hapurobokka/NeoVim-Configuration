@@ -1,4 +1,4 @@
-function update-dotfiles
+function update-dotfiles --description "Updates dotfiles with Nix flakes"
     pushd ~/dotfiles
     git add -A 
 
