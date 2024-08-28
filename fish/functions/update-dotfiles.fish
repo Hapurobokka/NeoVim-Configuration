@@ -1,4 +1,4 @@
-function update-nvim-config
+function update-dotfiles
     pushd ~/dotfiles
     git add -A 
 
