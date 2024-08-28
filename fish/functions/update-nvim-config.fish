@@ -1,5 +1,5 @@
 function update-nvim-config
-    pushd ~/configs/neovim-configuration
+    pushd ~/dotfiles
     git add -A 
 
     if test -z $argv
