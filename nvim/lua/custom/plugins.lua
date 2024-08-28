@@ -377,6 +377,10 @@ local plugins = {
             return is_git_repo ~= nil
         end
     },
+
+    {
+        'junegunn/goyo.vim'
+    }
 }
 
 vim.cmd "let g:vimtex_view_general_viewer = 'okular.exe'"
