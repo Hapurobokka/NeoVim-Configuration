@@ -379,8 +379,13 @@ local plugins = {
     },
 
     {
-        'junegunn/goyo.vim',
-        cmd = "Goyo"
+        "pocco81/true-zen.nvim",
+        config = require("true-zen").setup {}
+    },
+
+    {
+        "junegunn/limelight.vim",
+        cmd = "Limelight"
     }
 }
 
