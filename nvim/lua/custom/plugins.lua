@@ -380,7 +380,9 @@ local plugins = {
 
     {
         "pocco81/true-zen.nvim",
-        config = require('true-zen').setup{}
+        config = function()
+            require('true-zen').setup{}
+        end
     },
 
     {
