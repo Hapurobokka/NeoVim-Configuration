@@ -30,9 +30,25 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 })
 
-function GetImage(path)
-    local command = 'silent !kitten @ launch --type=window kitten icat --hold ' .. path
-    vim.api.nvim_command(command)
+vim.api.nvim_set_keymap('v', '<leader>pi', [[:<C-u>lua GetImage(vim.fn.getreg('"'))<CR>]], { noremap = true, silent = true} )
+
+local function goyo_enter()
+    vim.cmd("Limelight")
 end
 
-vim.api.nvim_set_keymap('v', '<leader>pi', [[:<C-u>lua GetImage(vim.fn.getreg('"'))<CR>]], { noremap = true, silent = true} )
+local function goyo_leave()
+    vim.cmd("Limelight!")
+    vim.cmd("colorscheme kanagawa")
+end
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "GoyoEnter",
+    nested = true,
+    callback = goyo_enter
+})
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "GoyoLeave",
+    nested = true,
+    callback = goyo_leave
+})

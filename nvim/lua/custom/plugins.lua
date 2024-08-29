@@ -379,20 +379,13 @@ local plugins = {
     },
 
     {
-<<<<<<< HEAD
-        "pocco81/true-zen.nvim",
-        lazy = false,
-        config = function()
-            require('true-zen').setup{}
-        end
+        "junegunn/limelight.vim",
+        cmd = "Limelight"
     },
 
     {
-        "junegunn/limelight.vim",
-        cmd = "Limelight"
-=======
-        'junegunn/goyo.vim'
->>>>>>> parent of 6e246e6 (la cague xd Wed Aug 28 02:48:09 PM CST 2024)
+        'junegunn/goyo.vim',
+        cmd = "Goyo"
     }
 }
 
